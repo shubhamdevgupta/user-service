@@ -13,5 +13,4 @@ public interface UserService {
 
     User getUserById(String id);
 
-    User updateUserbyId(String id);
 }
