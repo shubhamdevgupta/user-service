@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create User - Nal Jal Project</title>
+    <style>
+        /* General reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: url('https://via.placeholder.com/1920x1080') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Navigation bar styling */
+        .navbar {
+            width: 100%;
+            background-color: #00695c;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Form container styling */
+        .form-container {
+            background-color: #e3f2fd; /* Soft blue background */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .header-logo {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .header-logo img {
+            max-width: 70px;
+            height: auto;
+        }
+        h2 {
+            color: #00796b; /* Darker teal color */
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            color: #37474f;
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px;
+            border: 1px solid #90a4ae;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: #f1f8e9;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #00796b;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #004d40;
+        }
+        #responseMessage {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 0.9rem;
+            border-radius: 5px;
+        }
+        .success {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation Bar -->
+<div class="navbar">
+    <a href="#">Home</a>
+    <a href="#">About Us</a>
+    <a href="#">Services</a>
+    <a href="#">Contact</a>
+</div>
+
+<div class="form-container">
+    <!-- Logo and Ashoka Emblem -->
+    <div class="header-logo">
+        <img src="https://via.placeholder.com/70x70?text=Nal+Jal+Logo" alt="Nal Jal Logo">
+        <img src="https://via.placeholder.com/70x70?text=Ashoka+Emblem" alt="Ashoka Emblem">
+    </div>
+
+    <h2>Create New User</h2>
+
+    <form id="userForm">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+        <label for="about">About</label>
+        <textarea id="about" name="about" rows="4" placeholder="Tell us about yourself" required></textarea>
+
+        <button type="button" onclick="createUser()">Create User</button>
+    </form>
+    <div id="responseMessage"></div>
+</div>
+
+<script>
+    async function createUser() {
+        // Get values from form fields
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const about = document.getElementById('about').value;
+
+        // Create the user data object
+        const userData = { name, email, about };
+
+        try {
+            // Send POST request to your API endpoint
+            const response = await fetch('/api/users', { // Replace with your actual endpoint
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            });
+
+            // Handle response from the server
+            const responseMessage = document.getElementById('responseMessage');
+            if (response.ok) {
+                responseMessage.innerText = "User created successfully!";
+                responseMessage.className = "success";
+            } else {
+                responseMessage.innerText = "Failed to create user.";
+                responseMessage.className = "error";
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            const responseMessage = document.getElementById('responseMessage');
+            responseMessage.innerText = "Error: Unable to create user.";
+            responseMessage.className = "error";
+        }
+    }
+</script>
+</body>
+</html>

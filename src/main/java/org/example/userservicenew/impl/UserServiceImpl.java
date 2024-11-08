@@ -54,7 +54,6 @@ public class UserServiceImpl implements UserService {
 
         List<Rating> ratings = Arrays.stream(ratingOfUser).toList();
 
-
         List<Rating> ratingList = ratings.stream().map(rating -> {
             //api call to hotel service to get hotels
             //http://localhost:8082/hotels/9a3e2e1c-2761-41f6-878a-18bfadf6b50c
@@ -68,7 +67,6 @@ public class UserServiceImpl implements UserService {
 
             return rating;
         }).collect(Collectors.toList());
-
 
         user.setRatingList(ratingList);
         return user;
